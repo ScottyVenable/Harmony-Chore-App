@@ -29,8 +29,10 @@ export function AuthProvider({ children }) {
             displayName,
             avatar,
             householdId: null, // Will point to household document ID
+            householdId: null,
             createdAt: serverTimestamp()
         });
+        console.log("User profile created in Firestore");
         // Update Auth Profile
         await updateProfile(result.user, { displayName });
         return result;
@@ -57,6 +59,7 @@ export function AuthProvider({ children }) {
                 householdId: null,
                 createdAt: serverTimestamp()
             });
+            console.log("Google User profile created in Firestore");
         }
         return result;
     }

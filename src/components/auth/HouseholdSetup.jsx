@@ -6,7 +6,7 @@ import { db } from '../../firebase';
 import { collection, addDoc, query, where, getDocs, updateDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 export const HouseholdSetup = () => {
-    const { currentUser, userProfile } = useAuth();
+    const { currentUser, userProfile, logout } = useAuth();
     const [mode, setMode] = useState('menu'); // 'menu' | 'create' | 'join'
     const [householdName, setHouseholdName] = useState('');
     const [inviteCode, setInviteCode] = useState('');
@@ -41,9 +41,10 @@ export const HouseholdSetup = () => {
             });
 
             // Update user profile
-            await updateDoc(doc(db, "users", currentUser.uid), {
+            // Update user profile safe write
+            await setDoc(doc(db, "users", currentUser.uid), {
                 householdId: netHouseholdRef.id
-            });
+            }, { merge: true });
 
             // Reload page no longer needed thanks to onSnapshot
         } catch (err) {
@@ -79,9 +80,10 @@ export const HouseholdSetup = () => {
             });
 
             // Update user profile
-            await updateDoc(doc(db, "users", currentUser.uid), {
+            // Update user profile safe write
+            await setDoc(doc(db, "users", currentUser.uid), {
                 householdId: householdDoc.id
-            });
+            }, { merge: true });
 
             // Reload no longer needed
         } catch (err) {
@@ -126,7 +128,7 @@ export const HouseholdSetup = () => {
                                 <ArrowRight size={20} className="text-gray-300 group-hover:text-emerald-500 transition-colors" />
                             </button>
                         </div>
-                        <Button fullWidth onClick={() => useAuth().logout()} className="bg-transparent text-gray-400 hover:text-red-500 mt-4">Sign Out</Button>
+                        <Button fullWidth onClick={() => logout()} className="bg-transparent text-gray-400 hover:text-red-500 mt-4">Sign Out</Button>
                     </div>
                 )}
 
