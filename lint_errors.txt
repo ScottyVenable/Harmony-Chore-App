@@ -1,0 +1,155 @@
+
+> harmony-chore-app@0.0.0 lint
+> eslint .
+
+
+C:\Users\scott\OneDrive\Desktop\Coding\Harmony Chore App\src\App.jsx
+   65:5   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  63 |   useEffect(() => {
+  64 |     const date = new Date();
+> 65 |     setCurrentDate(date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }));
+     |     ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  66 |
+  67 |     // Apply dark mode
+  68 |     if (darkMode) {                                                                                                                                                                                                                                                                                                                                                                                                                                                 react-hooks/set-state-in-effect
+  113:39  error  'checkedItems' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        no-unused-vars
+  471:39  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  469 |
+  470 |           <div className="h-screen overflow-y-auto scrollbar-hide pb-20">
+> 471 |             {activeTab === 'home' && <HomeView />}
+      |                                       ^^^^^^^^ This component is created during render
+  472 |             {activeTab === 'rewards' && <RewardsView />}
+  473 |             {activeTab === 'profile' && <ProfileView />}
+  474 |           </div>
+
+  121 |
+  122 |   // --- Views ---
+> 123 |   const HomeView = () => (
+      |                    ^^^^^^^
+> 124 |     <div className="space-y-8 pb-32 animate-in fade-in duration-500">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 125 |       {/* Header */}
+      ΓÇª
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 239 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 240 |   );
+      | ^^^^ The component is created during render here
+  241 |
+  242 |   const RewardsView = () => {
+  243 |     const allUsers = [...MOCK_HOUSEHOLD, { ...profile, isUser: true }].sort((a, b) => b.points - a.points);                                                                                                                                                                      react-hooks/static-components
+  472:42  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  470 |           <div className="h-screen overflow-y-auto scrollbar-hide pb-20">
+  471 |             {activeTab === 'home' && <HomeView />}
+> 472 |             {activeTab === 'rewards' && <RewardsView />}
+      |                                          ^^^^^^^^^^^ This component is created during render
+  473 |             {activeTab === 'profile' && <ProfileView />}
+  474 |           </div>
+  475 |
+
+  240 |   );
+  241 |
+> 242 |   const RewardsView = () => {
+      |                       ^^^^^^^
+> 243 |     const allUsers = [...MOCK_HOUSEHOLD, { ...profile, isUser: true }].sort((a, b) => b.points - a.points);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 244 |     const maxPoints = allUsers[0].points;
+      ΓÇª
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 309 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 310 |   };
+      | ^^^^ The component is created during render here
+  311 |
+  312 |   const ProfileView = () => (
+  313 |     <div className="pt-10 pb-32 space-y-6 text-center animate-in slide-in-from-right duration-300 px-5">  react-hooks/static-components
+  473:42  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  471 |             {activeTab === 'home' && <HomeView />}
+  472 |             {activeTab === 'rewards' && <RewardsView />}
+> 473 |             {activeTab === 'profile' && <ProfileView />}
+      |                                          ^^^^^^^^^^^ This component is created during render
+  474 |           </div>
+  475 |
+  476 |           {/* FAB */}
+
+  310 |   };
+  311 |
+> 312 |   const ProfileView = () => (
+      |                       ^^^^^^^
+> 313 |     <div className="pt-10 pb-32 space-y-6 text-center animate-in slide-in-from-right duration-300 px-5">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 314 |       <div className="relative inline-block group">
+      ΓÇª
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 462 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 463 |   );
+      | ^^^^ The component is created during render here
+  464 |
+  465 |   return (
+  466 |     <div className={`h-full ${darkMode ? 'dark' : ''}`}>                                                                                                                       react-hooks/static-components
+
+C:\Users\scott\OneDrive\Desktop\Coding\Harmony Chore App\src\App.test.jsx
+   1:26  error  'fireEvent' is defined but never used. Allowed unused vars must match /^[A-Z_]/u         no-unused-vars
+  17:15  error  'buttons' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\scott\OneDrive\Desktop\Coding\Harmony Chore App\src\components\SwipeableTaskCard.jsx
+   4:81  error  'isCompleted' is defined but never used  no-unused-vars
+  89:59  error  'e' is defined but never used            no-unused-vars
+
+C:\Users\scott\OneDrive\Desktop\Coding\Harmony Chore App\src\components\modals\CategoryManagerModal.jsx
+  66:82  error  'Icon' is defined but never used  no-unused-vars
+
+C:\Users\scott\OneDrive\Desktop\Coding\Harmony Chore App\src\components\modals\CompleteTaskModal.jsx
+  16:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  14 |                 [item.id]: false
+  15 |             }), {});
+> 16 |             setCheckedItems(initialChecked);
+     |             ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  17 |             setPhoto(null);
+  18 |         }
+  19 |     }, [isOpen, task]);  react-hooks/set-state-in-effect
+
+C:\Users\scott\OneDrive\Desktop\Coding\Harmony Chore App\src\components\modals\CreateTaskModal.jsx
+  22:17  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  20 |         if (isOpen) {
+  21 |             if (initialData) {
+> 22 |                 setFormData(initialData);
+     |                 ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  23 |             } else {
+  24 |                 setFormData({ ...defaultState, categoryId: categories[0]?.id });
+  25 |             }  react-hooks/set-state-in-effect
+  28:8   warning  React Hook useEffect has a missing dependency: 'defaultState'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/exhaustive-deps
+
+Γ£û 13 problems (12 errors, 1 warning)
+

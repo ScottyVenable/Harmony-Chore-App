@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Harmony Chore App</string>
+    <string name="title_activity_main">Harmony Chore App</string>
+    <string name="package_name">com.harmony.choreapp</string>
+    <string name="custom_url_scheme">com.harmony.choreapp</string>
+</resources>
