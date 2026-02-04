@@ -45,9 +45,7 @@ export const HouseholdSetup = () => {
                 householdId: netHouseholdRef.id
             });
 
-            // Reload page to refresh AuthContext (or handled by onSnapshot)
-            window.location.reload();
-
+            // Reload page no longer needed thanks to onSnapshot
         } catch (err) {
             console.error(err);
             setError("Failed to create household.");
@@ -85,8 +83,7 @@ export const HouseholdSetup = () => {
                 householdId: householdDoc.id
             });
 
-            window.location.reload();
-
+            // Reload no longer needed
         } catch (err) {
             console.error(err);
             setError(err.message);

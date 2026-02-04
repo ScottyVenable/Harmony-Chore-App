@@ -8,7 +8,7 @@ import {
     onAuthStateChanged,
     updateProfile
 } from 'firebase/auth';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
@@ -66,25 +66,35 @@ export function AuthProvider({ children }) {
     }
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        let unsubProfile = () => { };
+
+        const unsubAuth = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
+
             if (user) {
-                // Fetch extra profile data
-                try {
-                    const docSnap = await getDoc(doc(db, "users", user.uid));
+                // Subscribe to profile changes
+                unsubProfile = onSnapshot(doc(db, "users", user.uid), (docSnap) => {
                     if (docSnap.exists()) {
                         setUserProfile(docSnap.data());
+                    } else {
+                        setUserProfile(null);
                     }
-                } catch (err) {
-                    console.error("Error fetching user profile:", err);
-                }
+                    setLoading(false);
+                }, (err) => {
+                    console.error("Profile sync error:", err);
+                    setLoading(false);
+                });
             } else {
                 setUserProfile(null);
+                unsubProfile();
+                setLoading(false);
             }
-            setLoading(false);
         });
 
-        return unsubscribe;
+        return () => {
+            unsubAuth();
+            unsubProfile();
+        };
     }, []);
 
     const value = {
