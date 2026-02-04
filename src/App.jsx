@@ -13,9 +13,16 @@ import { CategoryIcon } from './components/CategoryIcon';
 import { CreateTaskModal } from './components/modals/CreateTaskModal';
 import { CompleteTaskModal } from './components/modals/CompleteTaskModal';
 import { CategoryManagerModal } from './components/modals/CategoryManagerModal';
-import { INITIAL_CATEGORIES, AVATAR_PRESETS, MOCK_HOUSEHOLD, MOCK_REWARDS } from './constants';
+import { LoginScreen } from './components/auth/LoginScreen';
+import { HouseholdSetup } from './components/auth/HouseholdSetup';
+import { db } from './firebase';
+import { collection, onSnapshot, query, orderBy, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, increment } from 'firebase/firestore';
+import { INITIAL_CATEGORIES, AVATAR_PRESETS, MOCK_REWARDS } from './constants';
+import { useAuth } from './contexts/AuthContext';
 
 export default function App() {
+  const { currentUser, userProfile, logout } = useAuth();
+
   // --- State ---
   const [activeTab, setActiveTab] = useState('home');
   const [modals, setModals] = useState({ create: false, complete: false, categoryManager: false });
@@ -35,23 +42,44 @@ export default function App() {
 
   // Data State
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
-  const [profile, setProfile] = useState({
-    id: 1, name: 'Scotty', avatarType: 'emoji', avatar: '🦁', image: null,
-    points: 1250, level: 5, tasksCompleted: 42, streak: 3
-  });
+  const [tasks, setTasks] = useState([]);
+  const [members, setMembers] = useState([]);
 
-  const [tasks, setTasks] = useState([
-    {
-      id: 1, title: 'Water the plants', categoryId: 'c3',
-      basePoints: 20,
-      checklist: [
-        { id: 'cl1', text: 'Check soil', points: 10, optional: false },
-        { id: 'cl2', text: 'Mist leaves', points: 10, optional: false },
-        { id: 'cl3', text: 'Prune dead leaves', points: 20, optional: true }
-      ],
-      requirePhoto: true, completed: false, earnedPoints: 0
-    }
-  ]);
+  // Firestore Sync
+  useEffect(() => {
+    if (!userProfile?.householdId) return;
+
+    // Sync Tasks
+    const qTasks = query(collection(db, "households", userProfile.householdId, "tasks"), orderBy("createdAt", "desc"));
+    const unsubTasks = onSnapshot(qTasks, (snapshot) => {
+      setTasks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+
+    // Sync Members
+    const qMembers = query(collection(db, "households", userProfile.householdId, "members"));
+    const unsubMembers = onSnapshot(qMembers, (snapshot) => {
+      setMembers(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+
+    return () => {
+      unsubTasks();
+      unsubMembers();
+    };
+  }, [userProfile?.householdId]);
+
+  // Derived Profile (Real-time points from household member record)
+  const myMemberProfile = members.find(m => m.id === currentUser?.uid) || {};
+  const currentPoints = myMemberProfile.points || 0;
+
+  // Adapter for legacy UI access
+  const profile = {
+    ...myMemberProfile,
+    name: myMemberProfile.name || currentUser?.displayName || 'User',
+    points: currentPoints,
+    avatar: myMemberProfile.avatar || 'smile',
+    tasksCompleted: myMemberProfile.tasksCompleted || 0,
+    streak: myMemberProfile.streak || 0
+  };
 
   const fileInputRef = useRef(null);
 
@@ -101,9 +129,12 @@ export default function App() {
   };
 
   // --- Actions ---
-  const handlePurchase = (cost) => {
-    if (profile.points >= cost) {
-      setProfile(p => ({ ...p, points: p.points - cost }));
+  const handlePurchase = async (cost) => {
+    if (currentPoints >= cost) {
+      // Deduct points from Firestore
+      await updateDoc(doc(db, "households", userProfile.householdId, "members", currentUser.uid), {
+        points: increment(-cost)
+      });
     }
   };
 
@@ -115,27 +146,56 @@ export default function App() {
     if (categories.length > 1) setCategories(categories.filter(c => c.id !== id));
   };
 
-  const handleSaveTask = (taskData) => {
-    if (modalData) {
-      // Edit
-      setTasks(tasks.map(t => t.id === taskData.id ? { ...t, ...taskData } : t));
-    } else {
-      // Create
-      setTasks(prev => [...prev, { id: Date.now(), ...taskData, completed: false, earnedPoints: 0 }]);
+  const handleSaveTask = async (taskData) => {
+    try {
+      if (modalData) {
+        // Edit
+        await updateDoc(doc(db, "households", userProfile.householdId, "tasks", taskData.id), taskData);
+      } else {
+        // Create
+        await addDoc(collection(db, "households", userProfile.householdId, "tasks"), {
+          ...taskData,
+          completed: false,
+          createdAt: serverTimestamp(),
+          createdBy: currentUser.uid
+        });
+      }
+    } catch (e) {
+      console.error("Error saving task:", e);
     }
   };
 
-  const handleDeleteTask = (id) => {
-    setTasks(tasks.filter(t => t.id !== id));
+  const handleDeleteTask = async (id) => {
+    await deleteDoc(doc(db, "households", userProfile.householdId, "tasks", id));
   };
 
-  const handleCompleteTask = ({ task, photo, earnedPoints }) => {
-    setTasks(tasks.map(t => t.id === task.id ? {
-      ...t, completed: true, earnedPoints, completionPhoto: photo
-    } : t));
+  const handleCompleteTask = async ({ task, photo, earnedPoints }) => {
+    try {
+      // Mark task complete
+      await updateDoc(doc(db, "households", userProfile.householdId, "tasks", task.id), {
+        completed: true,
+        earnedPoints,
+        completionPhoto: photo,
+        completedBy: currentUser.uid,
+        completedAt: serverTimestamp()
+      });
 
-    setProfile(p => ({ ...p, points: p.points + earnedPoints, tasksCompleted: p.tasksCompleted + 1 }));
-    setModals({ ...modals, complete: false });
+      // Add points to user
+      await updateDoc(doc(db, "households", userProfile.householdId, "members", currentUser.uid), {
+        points: increment(earnedPoints)
+      });
+
+      setModals({ ...modals, complete: false });
+    } catch (e) {
+      console.error("Error completing task:", e);
+    }
+  };
+
+  const handleUpdateProfile = async (updates) => {
+    // Update Auth Profile for displayName/Photo
+    // And update Firestore Member
+    // For now just update Member
+    await updateDoc(doc(db, "households", userProfile.householdId, "members", currentUser.uid), updates);
   };
 
 
@@ -143,11 +203,21 @@ export default function App() {
 
 
 
+
+
+
+  if (!currentUser) {
+    return <LoginScreen />;
+  }
+
+  if (!userProfile?.householdId) {
+    return <HouseholdSetup />;
+  }
 
   return (
     <div className={`h-full ${darkMode ? 'dark' : ''}`}>
       <div className={`min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300 font-sans selection:${currentTheme.bg} selection:text-white`}>
-        <main className="max-w-md mx-auto min-h-screen relative shadow-2xl bg-white dark:bg-gray-900 overflow-hidden pt-safe pb-safe">
+        <main className="max-w-md mx-auto min-h-screen relative shadow-2xl bg-white dark:bg-gray-900 overflow-hidden pt-safe pb-safe pb-24">
 
           <div className="h-screen overflow-y-auto scrollbar-hide pb-20">
             {activeTab === 'home' && (
@@ -182,7 +252,27 @@ export default function App() {
                       <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                         <div className={`h-full bg-gradient-to-r from-white/80 to-white`} style={{ width: `${(profile.points % 1000) / 10}%` }}></div>
                       </div>
-                      <p className="text-xs opacity-50 mt-2 text-right">Next reward at {Math.ceil((profile.points + 1) / 1000) * 1000}</p>
+                      <p className="text-xs opacity-50 mt-2 text-right">
+                        {(() => {
+                          if (rewardSystem !== 'leaderboard') return `Next reward at ${Math.ceil((profile.points + 1) / 1000) * 1000}`;
+
+                          const sorted = [...members].sort((a, b) => b.points - a.points);
+                          const myRank = sorted.findIndex(u => u.id === currentUser.uid);
+                          const me = sorted[myRank];
+
+                          if (!me) return 'Welcome!';
+
+                          if (myRank === 0) {
+                            const runnerUp = sorted[1];
+                            const diff = me.points - (runnerUp?.points || 0);
+                            return `👑 Leading by ${diff} pts!`;
+                          } else {
+                            const ahead = sorted[myRank - 1];
+                            const diff = ahead.points - me.points;
+                            return `🔥 ${diff} pts behind ${ahead.name}`;
+                          }
+                        })()}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -281,37 +371,40 @@ export default function App() {
 
                 {rewardSystem === 'leaderboard' ? (
                   <div className="px-4 space-y-4">
-                    {[...MOCK_HOUSEHOLD, { ...profile, isUser: true }].sort((a, b) => b.points - a.points).map((u, idx, arr) => (
-                      <Card key={u.id} className={`p-4 flex items-center gap-4 relative overflow-hidden ${idx === 0 ? `border-2 border-${currentTheme.name}-400` : ''}`}>
-                        <div className={`w-8 h-8 flex items-center justify-center font-bold rounded-full flex-shrink-0 ${idx === 0 ? 'bg-amber-400 text-white shadow-lg' : idx === 1 ? 'bg-gray-300 text-gray-600' : idx === 2 ? 'bg-orange-300 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-400'}`}>
-                          {idx === 0 ? <Crown size={16} /> : idx + 1}
-                        </div>
+                    {[...members].sort((a, b) => b.points - a.points).map((u, idx, arr) => {
+                      const isUser = u.id === currentUser.uid;
+                      return (
+                        <Card key={u.id} className={`p-4 flex items-center gap-4 relative overflow-hidden ${idx === 0 ? `border-2 border-${currentTheme.name}-400` : ''}`}>
+                          <div className={`w-8 h-8 flex items-center justify-center font-bold rounded-full flex-shrink-0 ${idx === 0 ? 'bg-amber-400 text-white shadow-lg' : idx === 1 ? 'bg-gray-300 text-gray-600' : idx === 2 ? 'bg-orange-300 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-400'}`}>
+                            {idx === 0 ? <Crown size={16} /> : idx + 1}
+                          </div>
 
-                        <div className="flex-shrink-0">
-                          {u.image ? (
-                            <img src={u.image} alt={u.name} className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm" />
-                          ) : (
-                            <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-2xl shadow-sm">
-                              {u.avatar}
+                          <div className="flex-shrink-0">
+                            {u.image ? (
+                              <img src={u.image} alt={u.name} className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm" />
+                            ) : (
+                              <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-400 shadow-sm">
+                                <CategoryIcon iconKey={u.avatar} size={24} />
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="flex-1 z-10 min-w-0">
+                            <div className="flex justify-between items-center mb-1">
+                              <h3 className={`font-bold truncate pr-2 ${isUser ? currentTheme.text : 'dark:text-white'}`}>
+                                {u.name} {isUser && '(You)'}
+                              </h3>
+                              <span className="font-bold text-gray-800 dark:text-gray-200">{u.points} pts</span>
                             </div>
-                          )}
-                        </div>
-
-                        <div className="flex-1 z-10 min-w-0">
-                          <div className="flex justify-between items-center mb-1">
-                            <h3 className={`font-bold truncate pr-2 ${u.isUser ? currentTheme.text : 'dark:text-white'}`}>
-                              {u.name} {u.isUser && '(You)'}
-                            </h3>
-                            <span className="font-bold text-gray-800 dark:text-gray-200">{u.points} pts</span>
+                            <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                              <div className={`h-full ${isUser ? currentTheme.bg : 'bg-gray-400'}`} style={{ width: `${(u.points / (arr[0].points || 1)) * 100}%` }}></div>
+                            </div>
                           </div>
-                          <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                            <div className={`h-full ${u.isUser ? currentTheme.bg : 'bg-gray-400'}`} style={{ width: `${(u.points / arr[0].points) * 100}%` }}></div>
-                          </div>
-                        </div>
 
-                        {idx === 0 && <div className={`absolute inset-0 bg-amber-50 dark:bg-amber-900/10 opacity-50 pointer-events-none`}></div>}
-                      </Card>
-                    ))}
+                          {idx === 0 && <div className={`absolute inset-0 bg-amber-50 dark:bg-amber-900/10 opacity-50 pointer-events-none`}></div>}
+                        </Card>
+                      );
+                    })}
                   </div>
                 ) : (
                   <div className="px-4 grid grid-cols-2 gap-3">
@@ -321,7 +414,9 @@ export default function App() {
                     </div>
                     {MOCK_REWARDS.map(reward => (
                       <Card key={reward.id} className="p-4 flex flex-col items-center text-center gap-3">
-                        <div className="text-4xl mb-2">{reward.icon}</div>
+                        <div className="mb-2 text-amber-500">
+                          <CategoryIcon iconKey={reward.icon} size={40} />
+                        </div>
                         <h3 className="font-bold text-gray-800 dark:text-white leading-tight">{reward.title}</h3>
                         <Button fullWidth onClick={() => handlePurchase(reward.cost)} disabled={profile.points < reward.cost} themeColor={currentTheme} className="py-2 text-xs">
                           {reward.cost} pts
@@ -338,8 +433,8 @@ export default function App() {
                   {profile.avatarType === 'image' && profile.image ? (
                     <img src={profile.image} className={`w-28 h-28 rounded-full object-cover ring-4 ring-offset-4 dark:ring-offset-gray-900 ${currentTheme.ring}`} />
                   ) : (
-                    <div className={`w-28 h-28 mx-auto rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center text-5xl shadow-xl ring-4 ring-offset-4 dark:ring-offset-gray-900 ${currentTheme.ring}`}>
-                      {profile.avatar}
+                    <div className={`w-28 h-28 mx-auto rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center text-gray-400 shadow-xl ring-4 ring-offset-4 dark:ring-offset-gray-900 ${currentTheme.ring}`}>
+                      <CategoryIcon iconKey={profile.avatar} size={48} />
                     </div>
                   )}
                   <button onClick={() => setIsEditingProfile(!isEditingProfile)} className={`absolute bottom-0 right-0 p-2.5 rounded-full shadow-lg text-white hover:scale-110 transition-transform ${currentTheme.bg}`}>
@@ -353,7 +448,7 @@ export default function App() {
                     <div className="space-y-4">
                       <div>
                         <label className="block text-xs font-medium text-gray-500 mb-1 text-left">Display Name</label>
-                        <input value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                        <input value={profile.name} onChange={(e) => handleUpdateProfile({ name: e.target.value })}
                           className="w-full bg-gray-50 dark:bg-gray-900 p-3 rounded-xl font-bold dark:text-white focus:outline-none focus:ring-2 focus:ring-opacity-50"
                           style={{ '--tw-ring-color': currentTheme.bg }}
                         />
@@ -362,11 +457,14 @@ export default function App() {
                       <div>
                         <label className="block text-xs font-medium text-gray-500 mb-2 text-left">Choose Avatar</label>
                         <div className="grid grid-cols-5 gap-2">
-                          {AVATAR_PRESETS.map(emoji => (
-                            <button key={emoji} onClick={() => setProfile({ ...profile, avatar: emoji, avatarType: 'emoji' })}
-                              className={`aspect-square rounded-lg flex items-center justify-center text-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${profile.avatar === emoji && profile.avatarType === 'emoji' ? 'bg-gray-100 dark:bg-gray-700 ring-2 ring-inset ' + currentTheme.ring : ''}`}
+                          {AVATAR_PRESETS.map(iconKey => (
+                            <button key={iconKey} onClick={() => {
+                              setProfile({ ...profile, avatar: iconKey, avatarType: 'emoji' });
+                              if (navigator.vibrate) navigator.vibrate(10);
+                            }}
+                              className={`aspect-square rounded-lg flex items-center justify-center text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${profile.avatar === iconKey && profile.avatarType === 'emoji' ? 'bg-gray-100 dark:bg-gray-700 ring-2 ring-inset text-violet-600 ' + currentTheme.ring : ''}`}
                             >
-                              {emoji}
+                              <CategoryIcon iconKey={iconKey} size={24} />
                             </button>
                           ))}
                         </div>
@@ -527,7 +625,7 @@ export default function App() {
           )}
 
           {/* Navigation */}
-          <nav className="absolute bottom-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-t border-gray-100 dark:border-gray-800 pb-safe z-20">
+          <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-100 dark:border-gray-800 pb-safe z-40">
             <div className="flex justify-around items-center h-20">
               <button
                 aria-label="Home"

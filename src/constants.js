@@ -59,11 +59,6 @@ export const AVATAR_PRESETS = [
     'turtle', 'rocket', 'ghost', 'skull', 'zap', 'crown'
 ];
 
-export const MOCK_HOUSEHOLD = [
-    { id: 2, name: 'Kiki', points: 1450, avatar: 'cat', image: null, isUser: false },
-    { id: 3, name: 'Guest', points: 300, avatar: 'smile', image: null, isUser: false }
-];
-
 export const MOCK_REWARDS = [
     { id: 1, title: 'Takeout Night', cost: 1000, icon: 'pizza' },
     { id: 2, title: 'Sleep In (1hr)', cost: 500, icon: 'sleep' },
