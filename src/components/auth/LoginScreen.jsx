@@ -98,7 +98,7 @@ export const LoginScreen = () => {
                             </div>
                         </div>
 
-                        <Button fullWidth disabled={loading} themeColor={{ bg: 'bg-violet-600' }} className="mt-4">
+                        <Button fullWidth type="submit" disabled={loading} themeColor={{ bg: 'bg-violet-600' }} className="mt-4">
                             {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
                         </Button>
                     </form>
