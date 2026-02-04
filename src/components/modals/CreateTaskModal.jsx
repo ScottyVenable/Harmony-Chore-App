@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { X, Plus, Trash2, Camera, ListChecks } from 'lucide-react';
 import { Button } from '../Button';
 import { Switch } from '../Switch';
@@ -14,19 +14,11 @@ const defaultState = {
 
 export const CreateTaskModal = ({ isOpen, onClose, onSave, categories, initialData, theme }) => {
 
-    const [formData, setFormData] = useState(defaultState);
+    const [formData, setFormData] = useState(() => {
+        if (initialData) return initialData;
+        return { ...defaultState, categoryId: categories?.[0]?.id || '' };
+    });
     const [checklistInput, setChecklistInput] = useState({ text: '', points: 10, optional: false });
-
-    useEffect(() => {
-        if (isOpen) {
-            if (initialData) {
-                setFormData(initialData);
-            } else {
-                setFormData({ ...defaultState, categoryId: categories[0]?.id });
-            }
-            setChecklistInput({ text: '', points: 10, optional: false });
-        }
-    }, [isOpen, initialData, categories]);
 
     const handleSave = (e) => {
         e.preventDefault();
@@ -53,8 +45,8 @@ export const CreateTaskModal = ({ isOpen, onClose, onSave, categories, initialDa
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in">
-            <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
                 {/* Header */}
                 <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
                     <h2 className="text-lg font-bold dark:text-white">

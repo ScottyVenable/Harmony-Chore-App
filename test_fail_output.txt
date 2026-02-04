@@ -1,0 +1,888 @@
+
+> harmony-chore-app@0.0.0 test
+> vitest --run src/components/modals/CreateTaskModal.test.jsx
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/scott/OneDrive/Desktop/Coding/Harmony Chore App[39m
+
+ [31mΓ¥»[39m src/components/modals/CreateTaskModal.test.jsx [2m([22m[2m4 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 254[2mms[22m[39m
+     [32mΓ£ô[39m renders nothing when closed[32m 18[2mms[22m[39m
+[31m     [31m├ù[31m renders form elements when open[39m[32m 27[2mms[22m[39m
+[31m     [31m├ù[31m disables save button initially (if title is empty)[39m[32m 202[2mms[22m[39m
+[31m     [31m├ù[31m enables save button when title is entered and calls onSave[39m[32m 6[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 3 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/components/modals/CreateTaskModal.test.jsx > CreateTaskModal > renders form elements when open
+TestingLibraryElementError: Unable to find an element with the placeholder text of: /e.g. Wash Dishes/i
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in"
+    >
+      <div
+        class="bg-white dark:bg-gray-900 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+      >
+        <div
+          class="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50"
+        >
+          <h2
+            class="text-lg font-bold dark:text-white"
+          >
+            New Task
+          </h2>
+          <button
+            class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            <span
+              aria-label="Close"
+            >
+              X
+            </span>
+          </button>
+        </div>
+        <div
+          class="p-6 overflow-y-auto space-y-6 flex-1"
+        >
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5"
+            >
+              Task Name
+            </label>
+            <input
+              class="w-full text-lg font-bold bg-transparent border-b-2 border-gray-200 dark:border-gray-700 focus:border-violet-500 focus:outline-none py-2 dark:text-white transition-colors"
+              placeholder="e.g. Wash the dishes"
+              value=""
+            />
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Category
+            </label>
+            <div
+              class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
+            >
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        bg-violet-600 text-white border-transparent shadow-lg scale-105"
+              >
+                <div
+                  data-testid="mock-category-icon"
+                >
+                  Icon
+                </div>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Kitchen
+                </span>
+              </button>
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-500"
+              >
+                <div
+                  data-testid="mock-category-icon"
+                >
+                  Icon
+                </div>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Living Room
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            class="grid grid-cols-2 gap-4"
+          >
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+              >
+                Base Points
+              </label>
+              <div
+                class="flex items-center gap-2"
+              >
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  -
+                </button>
+                <span
+                  class="flex-1 text-center font-bold text-xl dark:text-white"
+                >
+                  20
+                </span>
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800 flex flex-col justify-between"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider"
+              >
+                Photo Proof
+              </label>
+              <div
+                class="flex items-center justify-between mt-2"
+              >
+                <div
+                  class="flex items-center gap-2 text-gray-500"
+                >
+                  <span>
+                    Camera
+                  </span>
+                  <span
+                    class="text-xs"
+                  >
+                    Required
+                  </span>
+                </div>
+                <button
+                  class="w-12 h-7 rounded-full p-1 transition-colors duration-200
+        ease-in-out relative bg-gray-200 dark:bg-gray-700"
+                >
+                  <div
+                    class="w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200
+            ease-in-out translate-x-0"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Checklist (Optional)
+            </label>
+            <div
+              class="space-y-3 mb-3"
+            />
+            <div
+              class="flex gap-2 items-end"
+            >
+              <div
+                class="flex-1 space-y-2"
+              >
+                <input
+                  class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="Add step..."
+                  value=""
+                />
+                <div
+                  class="flex gap-2"
+                >
+                  <label
+                    class="flex items-center gap-1 text-xs text-gray-500 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer select-none"
+                  >
+                    <input
+                      class="rounded text-violet-600 focus:ring-violet-500"
+                      type="checkbox"
+                    />
+                    Bonus Task
+                  </label>
+                  <select
+                    class="text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 focus:outline-none"
+                  >
+                    <option
+                      value="5"
+                    >
+                      5 pts
+                    </option>
+                    <option
+                      value="10"
+                    >
+                      10 pts
+                    </option>
+                    <option
+                      value="20"
+                    >
+                      20 pts
+                    </option>
+                    <option
+                      value="50"
+                    >
+                      50 pts
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <button
+                class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-violet-100 hover:text-violet-600 transition-colors disabled:opacity-50"
+                disabled=""
+              >
+                <span>
+                  +
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="p-4 border-t border-gray-100 dark:border-gray-800 mt-auto bg-white dark:bg-gray-900 pb-safe"
+        >
+          <button
+            class="px-4 py-3.5 rounded-xl font-semibold text-[15px] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-violet-600 text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 active:scale-95 w-full "
+            disabled=""
+            type="button"
+          >
+            Create Task
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ Γ¥» Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ Γ¥» src/components/modals/CreateTaskModal.test.jsx:47:23
+     45|         );
+     46|         expect(screen.getByText(/New Task/i)).toBeInTheDocument();
+     47|         expect(screen.getByPlaceholderText(/e.g. Wash Dishes/i)).toBeIΓÇª
+       |                       ^
+     48|         expect(screen.getByText(/Kitchen/i)).toBeInTheDocument();
+     49|     });
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/3]ΓÄ»
+
+ FAIL  src/components/modals/CreateTaskModal.test.jsx > CreateTaskModal > disables save button initially (if title is empty)
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/Save Task/i`
+
+Here are the accessible roles:
+
+  heading:
+
+  Name "New Task":
+  <h2
+    class="text-lg font-bold dark:text-white"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "Close":
+  <button
+    class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+  />
+
+  Name "Icon Kitchen":
+  <button
+    class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                          bg-violet-600 text-white border-transparent shadow-lg scale-105"
+  />
+
+  Name "Icon Living Room":
+  <button
+    class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                          border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-500"
+  />
+
+  Name "-":
+  <button
+    class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+  />
+
+  Name "+":
+  <button
+    class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+  />
+
+  Name "":
+  <button
+    class="w-12 h-7 rounded-full p-1 transition-colors duration-200
+          ease-in-out relative bg-gray-200 dark:bg-gray-700"
+  />
+
+  Name "+":
+  <button
+    class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-violet-100 hover:text-violet-600 transition-colors disabled:opacity-50"
+    disabled=""
+  />
+
+  Name "Create Task":
+  <button
+    class="px-4 py-3.5 rounded-xl font-semibold text-[15px] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-violet-600 text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 active:scale-95 w-full "
+    disabled=""
+    type="button"
+  />
+
+  --------------------------------------------------
+  textbox:
+
+  Name "":
+  <input
+    class="w-full text-lg font-bold bg-transparent border-b-2 border-gray-200 dark:border-gray-700 focus:border-violet-500 focus:outline-none py-2 dark:text-white transition-colors"
+    placeholder="e.g. Wash the dishes"
+    value=""
+  />
+
+  Name "":
+  <input
+    class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+    placeholder="Add step..."
+    value=""
+  />
+
+  --------------------------------------------------
+  checkbox:
+
+  Name "Bonus Task":
+  <input
+    class="rounded text-violet-600 focus:ring-violet-500"
+    type="checkbox"
+  />
+
+  --------------------------------------------------
+  combobox:
+
+  Name "":
+  <select
+    class="text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 focus:outline-none"
+  />
+
+  --------------------------------------------------
+  option:
+
+  Name "5 pts":
+  <option
+    value="5"
+  />
+
+  Name "10 pts":
+  <option
+    value="10"
+  />
+
+  Name "20 pts":
+  <option
+    value="20"
+  />
+
+  Name "50 pts":
+  <option
+    value="50"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in"
+    >
+      <div
+        class="bg-white dark:bg-gray-900 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+      >
+        <div
+          class="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50"
+        >
+          <h2
+            class="text-lg font-bold dark:text-white"
+          >
+            New Task
+          </h2>
+          <button
+            class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            <span
+              aria-label="Close"
+            >
+              X
+            </span>
+          </button>
+        </div>
+        <div
+          class="p-6 overflow-y-auto space-y-6 flex-1"
+        >
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5"
+            >
+              Task Name
+            </label>
+            <input
+              class="w-full text-lg font-bold bg-transparent border-b-2 border-gray-200 dark:border-gray-700 focus:border-violet-500 focus:outline-none py-2 dark:text-white transition-colors"
+              placeholder="e.g. Wash the dishes"
+              value=""
+            />
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Category
+            </label>
+            <div
+              class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
+            >
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        bg-violet-600 text-white border-transparent shadow-lg scale-105"
+              >
+                <div
+                  data-testid="mock-category-icon"
+                >
+                  Icon
+                </div>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Kitchen
+                </span>
+              </button>
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-500"
+              >
+                <div
+                  data-testid="mock-category-icon"
+                >
+                  Icon
+                </div>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Living Room
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            class="grid grid-cols-2 gap-4"
+          >
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+              >
+                Base Points
+              </label>
+              <div
+                class="flex items-center gap-2"
+              >
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  -
+                </button>
+                <span
+                  class="flex-1 text-center font-bold text-xl dark:text-white"
+                >
+                  20
+                </span>
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800 flex flex-col justify-between"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider"
+              >
+                Photo Proof
+              </label>
+              <div
+                class="flex items-center justify-between mt-2"
+              >
+                <div
+                  class="flex items-center gap-2 text-gray-500"
+                >
+                  <span>
+                    Camera
+                  </span>
+                  <span
+                    class="text-xs"
+                  >
+                    Required
+                  </span>
+                </div>
+                <button
+                  class="w-12 h-7 rounded-full p-1 transition-colors duration-200
+        ease-in-out relative bg-gray-200 dark:bg-gray-700"
+                >
+                  <div
+                    class="w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200
+            ease-in-out translate-x-0"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Checklist (Optional)
+            </label>
+            <div
+              class="space-y-3 mb-3"
+            />
+            <div
+              class="flex gap-2 items-end"
+            >
+              <div
+                class="flex-1 space-y-2"
+              >
+                <input
+                  class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="Add step..."
+                  value=""
+                />
+                <div
+                  class="flex gap-2"
+                >
+                  <label
+                    class="flex items-center gap-1 text-xs text-gray-500 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer select-none"
+                  >
+                    <input
+                      class="rounded text-violet-600 focus:ring-violet-500"
+                      type="checkbox"
+                    />
+                    Bonus Task
+                  </label>
+                  <select
+                    class="text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 focus:outline-none"
+                  >
+                    <option
+                      value="5"
+                    >
+                      5 pts
+                    </option>
+                    <option
+                      value="10"
+                    >
+                      10 pts
+                    </option>
+                    <option
+                      value="20"
+                    >
+                      20 pts
+                    </option>
+                    <option
+                      value="50"
+                    >
+                      50 pts
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <button
+                class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-violet-100 hover:text-violet-600 transition-colors disabled:opacity-50"
+                disabled=""
+              >
+                <span>
+                  +
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="p-4 border-t border-gray-100 dark:border-gray-800 mt-auto bg-white dark:bg-gray-900 pb-safe"
+        >
+          <button
+            class="px-4 py-3.5 rounded-xl font-semibold text-[15px] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-violet-600 text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 active:scale-95 w-full "
+            disabled=""
+            type="button"
+          >
+            Create Task
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ Γ¥» Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ Γ¥» src/components/modals/CreateTaskModal.test.jsx:61:32
+     59|             />
+     60|         );
+     61|         const saveBtn = screen.getByRole('button', { name: /Save Task/ΓÇª
+       |                                ^
+     62|         expect(saveBtn).toBeDisabled();
+     63|     });
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/3]ΓÄ»
+
+ FAIL  src/components/modals/CreateTaskModal.test.jsx > CreateTaskModal > enables save button when title is entered and calls onSave
+TestingLibraryElementError: Unable to find an element with the placeholder text of: /e.g. Wash Dishes/i
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in"
+    >
+      <div
+        class="bg-white dark:bg-gray-900 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+      >
+        <div
+          class="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50"
+        >
+          <h2
+            class="text-lg font-bold dark:text-white"
+          >
+            New Task
+          </h2>
+          <button
+            class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            <span
+              aria-label="Close"
+            >
+              X
+            </span>
+          </button>
+        </div>
+        <div
+          class="p-6 overflow-y-auto space-y-6 flex-1"
+        >
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5"
+            >
+              Task Name
+            </label>
+            <input
+              class="w-full text-lg font-bold bg-transparent border-b-2 border-gray-200 dark:border-gray-700 focus:border-violet-500 focus:outline-none py-2 dark:text-white transition-colors"
+              placeholder="e.g. Wash the dishes"
+              value=""
+            />
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Category
+            </label>
+            <div
+              class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
+            >
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        bg-violet-600 text-white border-transparent shadow-lg scale-105"
+              >
+                <div
+                  data-testid="mock-category-icon"
+                >
+                  Icon
+                </div>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Kitchen
+                </span>
+              </button>
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-500"
+              >
+                <div
+                  data-testid="mock-category-icon"
+                >
+                  Icon
+                </div>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Living Room
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            class="grid grid-cols-2 gap-4"
+          >
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+              >
+                Base Points
+              </label>
+              <div
+                class="flex items-center gap-2"
+              >
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  -
+                </button>
+                <span
+                  class="flex-1 text-center font-bold text-xl dark:text-white"
+                >
+                  20
+                </span>
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800 flex flex-col justify-between"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider"
+              >
+                Photo Proof
+              </label>
+              <div
+                class="flex items-center justify-between mt-2"
+              >
+                <div
+                  class="flex items-center gap-2 text-gray-500"
+                >
+                  <span>
+                    Camera
+                  </span>
+                  <span
+                    class="text-xs"
+                  >
+                    Required
+                  </span>
+                </div>
+                <button
+                  class="w-12 h-7 rounded-full p-1 transition-colors duration-200
+        ease-in-out relative bg-gray-200 dark:bg-gray-700"
+                >
+                  <div
+                    class="w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200
+            ease-in-out translate-x-0"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Checklist (Optional)
+            </label>
+            <div
+              class="space-y-3 mb-3"
+            />
+            <div
+              class="flex gap-2 items-end"
+            >
+              <div
+                class="flex-1 space-y-2"
+              >
+                <input
+                  class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="Add step..."
+                  value=""
+                />
+                <div
+                  class="flex gap-2"
+                >
+                  <label
+                    class="flex items-center gap-1 text-xs text-gray-500 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer select-none"
+                  >
+                    <input
+                      class="rounded text-violet-600 focus:ring-violet-500"
+                      type="checkbox"
+                    />
+                    Bonus Task
+                  </label>
+                  <select
+                    class="text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 focus:outline-none"
+                  >
+                    <option
+                      value="5"
+                    >
+                      5 pts
+                    </option>
+                    <option
+                      value="10"
+                    >
+                      10 pts
+                    </option>
+                    <option
+                      value="20"
+                    >
+                      20 pts
+                    </option>
+                    <option
+                      value="50"
+                    >
+                      50 pts
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <button
+                class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-violet-100 hover:text-violet-600 transition-colors disabled:opacity-50"
+                disabled=""
+              >
+                <span>
+                  +
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="p-4 border-t border-gray-100 dark:border-gray-800 mt-auto bg-white dark:bg-gray-900 pb-safe"
+        >
+          <button
+            class="px-4 py-3.5 rounded-xl font-semibold text-[15px] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-violet-600 text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 active:scale-95 w-full "
+            disabled=""
+            type="button"
+          >
+            Create Task
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ Γ¥» Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ Γ¥» src/components/modals/CreateTaskModal.test.jsx:77:30
+     75|         );
+     76| 
+     77|         const input = screen.getByPlaceholderText(/e.g. Wash Dishes/i);
+       |                              ^
+     78|         fireEvent.change(input, { target: { value: 'Clean Sink' } });
+     79| 
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[3/3]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m 21:30:13
+[2m   Duration [22m 1.76s[2m (transform 89ms, setup 105ms, import 197ms, tests 254ms, environment 809ms)[22m
+

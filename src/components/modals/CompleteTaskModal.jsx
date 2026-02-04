@@ -1,22 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { X, Check, Camera, Upload } from 'lucide-react';
 import { Button } from '../Button';
 
 export const CompleteTaskModal = ({ isOpen, onClose, onComplete, task, theme }) => {
-    const [checkedItems, setCheckedItems] = useState({});
+    const [checkedItems, setCheckedItems] = useState(() => {
+        if (!task) return {};
+        return (task.checklist || []).reduce((acc, item) => ({
+            ...acc,
+            [item.id]: false
+        }), {});
+    });
     const [photo, setPhoto] = useState(null);
     const fileInputRef = useRef(null);
-
-    useEffect(() => {
-        if (isOpen && task) {
-            const initialChecked = (task.checklist || []).reduce((acc, item) => ({
-                ...acc,
-                [item.id]: false
-            }), {});
-            setCheckedItems(initialChecked);
-            setPhoto(null);
-        }
-    }, [isOpen, task]);
 
     if (!isOpen || !task) return null;
 
@@ -46,8 +41,8 @@ export const CompleteTaskModal = ({ isOpen, onClose, onComplete, task, theme }) 
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
-            <div className="bg-white dark:bg-gray-900 w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="bg-white dark:bg-gray-900 w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 slide-in-from-bottom-8 duration-300">
                 <div className={`p-6 text-center text-white relative overflow-hidden ${theme?.bg || 'bg-violet-600'}`}>
                     <h2 className="text-2xl font-bold relative z-10">{task.title}</h2>
                     <p className="opacity-90 relative z-10">{task.basePoints} pts base</p>

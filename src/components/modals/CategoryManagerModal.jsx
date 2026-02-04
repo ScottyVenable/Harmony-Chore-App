@@ -38,6 +38,7 @@ export const CategoryManagerModal = ({ isOpen, onClose, categories, onAddCategor
                                     <span className="font-medium dark:text-gray-200">{cat.name}</span>
                                 </div>
                                 <button
+                                    aria-label={`Delete ${cat.name}`}
                                     onClick={() => onDeleteCategory(cat.id)}
                                     disabled={categories.length <= 1}
                                     className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed"
@@ -63,14 +64,14 @@ export const CategoryManagerModal = ({ isOpen, onClose, categories, onAddCategor
                         <div>
                             <label className="block text-xs font-medium text-gray-500 mb-2">Select Icon</label>
                             <div className="grid grid-cols-6 gap-2">
-                                {Object.entries(ICON_LIBRARY).map(([key, { icon: Icon }]) => (
+                                {Object.entries(ICON_LIBRARY).map(([key, { icon: IconComponent }]) => (
                                     <button
                                         key={key}
                                         onClick={() => setNewCatData({ ...newCatData, iconKey: key })}
                                         className={`aspect-square rounded-xl flex items-center justify-center transition-colors
                                             ${newCatData.iconKey === key ? 'bg-violet-600 text-white shadow-lg' : 'bg-gray-50 dark:bg-gray-800 text-gray-400 hover:bg-gray-100'}`}
                                     >
-                                        <Icon size={20} />
+                                        <IconComponent size={20} />
                                     </button>
                                 ))}
                             </div>

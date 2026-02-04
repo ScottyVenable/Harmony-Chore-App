@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Edit3, Trash2 } from 'lucide-react';
 
-export const SwipeableTaskCard = ({ children, onEdit, onDelete, onClick, theme, isCompleted }) => {
+export const SwipeableTaskCard = ({ children, onEdit, onDelete, onClick, theme }) => {
     const [offsetX, setOffsetX] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const startX = useRef(0);
@@ -86,7 +86,7 @@ export const SwipeableTaskCard = ({ children, onEdit, onDelete, onClick, theme, 
                         ${isDragging ? 'duration-0' : ''}`} style={{ transform: `translateX(${offsetX}px)` }}
                 onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}
                 onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseLeave} onClick={(e) => {
+                onMouseLeave={handleMouseLeave} onClick={() => {
                     if (offsetX === 0) onClick();
                     else setOffsetX(0); // Close if open
                 }}

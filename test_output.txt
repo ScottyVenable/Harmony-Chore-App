@@ -1,0 +1,1190 @@
+
+> harmony-chore-app@0.0.0 test
+> vitest --run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/scott/OneDrive/Desktop/Coding/Harmony Chore App[39m
+
+ [32mΓ£ô[39m src/components/modals/CategoryManagerModal.test.jsx [2m([22m[2m3 tests[22m[2m)[22m[32m 220[2mms[22m[39m
+ [32mΓ£ô[39m src/App.test.jsx [2m([22m[2m3 tests[22m[2m)[22m[32m 175[2mms[22m[39m
+ [31mΓ¥»[39m src/components/modals/CreateTaskModal.test.jsx [2m([22m[2m4 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 351[2mms[22m[39m
+[31m     [31m├ù[31m renders nothing when closed[39m[32m 18[2mms[22m[39m
+[31m     [31m├ù[31m renders form elements when open[39m[32m 37[2mms[22m[39m
+[31m     [31m├ù[31m disables save button initially (if title is empty)[39m[32m 286[2mms[22m[39m
+[31m     [31m├ù[31m enables save button when title is entered and calls onSave[39m[32m 9[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 4 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/components/modals/CreateTaskModal.test.jsx > CreateTaskModal > renders nothing when closed
+TypeError: Cannot read properties of undefined (reading '0')
+ Γ¥» src/components/modals/CreateTaskModal.jsx:19:47
+     17|     const [formData, setFormData] = useState(() => {
+     18|         if (initialData) return initialData;
+     19|         return { ...defaultState, categoryId: categories[0]?.id };
+       |                                               ^
+     20|     });
+     21|     const [checklistInput, setChecklistInput] = useState({ text: '', pΓÇª
+ Γ¥» mountStateImpl node_modules/react-dom/cjs/react-dom-client.development.js:8268:24
+ Γ¥» mountState node_modules/react-dom/cjs/react-dom-client.development.js:8289:22
+ Γ¥» Object.useState node_modules/react-dom/cjs/react-dom-client.development.js:26243:18
+ Γ¥» process.env.NODE_ENV.exports.useState node_modules/react/cjs/react.development.js:1263:34
+ Γ¥» CreateTaskModal src/components/modals/CreateTaskModal.jsx:17:37
+ Γ¥» Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:20
+ Γ¥» renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:22
+ Γ¥» updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:19
+ Γ¥» beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:18
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/4]ΓÄ»
+
+ FAIL  src/components/modals/CreateTaskModal.test.jsx > CreateTaskModal > renders form elements when open
+TestingLibraryElementError: Unable to find an element with the placeholder text of: /e.g. Wash Dishes/i
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in"
+    >
+      <div
+        class="bg-white dark:bg-gray-900 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+      >
+        <div
+          class="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50"
+        >
+          <h2
+            class="text-lg font-bold dark:text-white"
+          >
+            New Task
+          </h2>
+          <button
+            class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-x text-gray-500"
+              fill="none"
+              height="20"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6 6 18"
+              />
+              <path
+                d="m6 6 12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="p-6 overflow-y-auto space-y-6 flex-1"
+        >
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5"
+            >
+              Task Name
+            </label>
+            <input
+              class="w-full text-lg font-bold bg-transparent border-b-2 border-gray-200 dark:border-gray-700 focus:border-violet-500 focus:outline-none py-2 dark:text-white transition-colors"
+              placeholder="e.g. Wash the dishes"
+              value=""
+            />
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Category
+            </label>
+            <div
+              class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
+            >
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        bg-violet-600 text-white border-transparent shadow-lg scale-105"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-utensils"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"
+                  />
+                  <path
+                    d="M7 2v20"
+                  />
+                  <path
+                    d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"
+                  />
+                </svg>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Kitchen
+                </span>
+              </button>
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-500"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-sofa"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"
+                  />
+                  <path
+                    d="M2 16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v1.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V11a2 2 0 0 0-4 0z"
+                  />
+                  <path
+                    d="M4 18v2"
+                  />
+                  <path
+                    d="M20 18v2"
+                  />
+                  <path
+                    d="M12 4v9"
+                  />
+                </svg>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Living Room
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            class="grid grid-cols-2 gap-4"
+          >
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+              >
+                Base Points
+              </label>
+              <div
+                class="flex items-center gap-2"
+              >
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  -
+                </button>
+                <span
+                  class="flex-1 text-center font-bold text-xl dark:text-white"
+                >
+                  20
+                </span>
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800 flex flex-col justify-between"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider"
+              >
+                Photo Proof
+              </label>
+              <div
+                class="flex items-center justify-between mt-2"
+              >
+                <div
+                  class="flex items-center gap-2 text-gray-500"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-camera"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"
+                    />
+                    <circle
+                      cx="12"
+                      cy="13"
+                      r="3"
+                    />
+                  </svg>
+                  <span
+                    class="text-xs"
+                  >
+                    Required
+                  </span>
+                </div>
+                <button
+                  class="w-12 h-7 rounded-full p-1 transition-colors duration-200
+        ease-in-out relative bg-gray-200 dark:bg-gray-700"
+                >
+                  <div
+                    class="w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200
+            ease-in-out translate-x-0"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Checklist (Optional)
+            </label>
+            <div
+              class="space-y-3 mb-3"
+            />
+            <div
+              class="flex gap-2 items-end"
+            >
+              <div
+                class="flex-1 space-y-2"
+              >
+                <input
+                  class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="Add step..."
+                  value=""
+                />
+                <div
+                  class="flex gap-2"
+                >
+                  <label
+                    class="flex items-center gap-1 text-xs text-gray-500 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer select-none"
+                  >
+                    <input
+                      class="rounded text-violet-600 focus:ring-violet-500"
+                      type="checkbox"
+                    />
+                    Bonus Task
+                  </label>
+                  <select
+                    class="text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 focus:outline-none"
+                  >
+                    <option
+                      value="5"
+                    >
+                      5 pts
+                    </option>
+                    <option
+                      value="10"
+                    >
+                      10 pts
+                    </option>
+                    <option
+                      value="20"
+                    >
+                      20 pts
+                    </option>
+                    <option
+                      value="50"
+                    >
+                      50 pts
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <button
+                class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-violet-100 hover:text-violet-600 transition-colors disabled:opacity-50"
+                disabled=""
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-plus"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12h14"
+                  />
+                  <path
+                    d="M12 5v14"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="p-4 border-t border-gray-100 dark:border-gray-800 mt-auto bg-white dark:bg-gray-900 pb-safe"
+        >
+          <button
+            class="px-4 py-3.5 rounded-xl font-semibold text-[15px] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-violet-600 text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 active:scale-95 w-full "
+            disabled=""
+            type="button"
+          >
+            Create Task
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ Γ¥» Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ Γ¥» src/components/modals/CreateTaskModal.test.jsx:32:23
+     30|         );
+     31|         expect(screen.getByText(/New Task/i)).toBeInTheDocument();
+     32|         expect(screen.getByPlaceholderText(/e.g. Wash Dishes/i)).toBeIΓÇª
+       |                       ^
+     33|         expect(screen.getByText(/Kitchen/i)).toBeInTheDocument();
+     34|     });
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/4]ΓÄ»
+
+ FAIL  src/components/modals/CreateTaskModal.test.jsx > CreateTaskModal > disables save button initially (if title is empty)
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/Save Task/i`
+
+Here are the accessible roles:
+
+  heading:
+
+  Name "New Task":
+  <h2
+    class="text-lg font-bold dark:text-white"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "":
+  <button
+    class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+  />
+
+  Name "Kitchen":
+  <button
+    class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                          bg-violet-600 text-white border-transparent shadow-lg scale-105"
+  />
+
+  Name "Living Room":
+  <button
+    class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                          border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-500"
+  />
+
+  Name "-":
+  <button
+    class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+  />
+
+  Name "+":
+  <button
+    class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+  />
+
+  Name "":
+  <button
+    class="w-12 h-7 rounded-full p-1 transition-colors duration-200
+          ease-in-out relative bg-gray-200 dark:bg-gray-700"
+  />
+
+  Name "":
+  <button
+    class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-violet-100 hover:text-violet-600 transition-colors disabled:opacity-50"
+    disabled=""
+  />
+
+  Name "Create Task":
+  <button
+    class="px-4 py-3.5 rounded-xl font-semibold text-[15px] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-violet-600 text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 active:scale-95 w-full "
+    disabled=""
+    type="button"
+  />
+
+  --------------------------------------------------
+  textbox:
+
+  Name "":
+  <input
+    class="w-full text-lg font-bold bg-transparent border-b-2 border-gray-200 dark:border-gray-700 focus:border-violet-500 focus:outline-none py-2 dark:text-white transition-colors"
+    placeholder="e.g. Wash the dishes"
+    value=""
+  />
+
+  Name "":
+  <input
+    class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+    placeholder="Add step..."
+    value=""
+  />
+
+  --------------------------------------------------
+  checkbox:
+
+  Name "Bonus Task":
+  <input
+    class="rounded text-violet-600 focus:ring-violet-500"
+    type="checkbox"
+  />
+
+  --------------------------------------------------
+  combobox:
+
+  Name "":
+  <select
+    class="text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 focus:outline-none"
+  />
+
+  --------------------------------------------------
+  option:
+
+  Name "5 pts":
+  <option
+    value="5"
+  />
+
+  Name "10 pts":
+  <option
+    value="10"
+  />
+
+  Name "20 pts":
+  <option
+    value="20"
+  />
+
+  Name "50 pts":
+  <option
+    value="50"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in"
+    >
+      <div
+        class="bg-white dark:bg-gray-900 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+      >
+        <div
+          class="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50"
+        >
+          <h2
+            class="text-lg font-bold dark:text-white"
+          >
+            New Task
+          </h2>
+          <button
+            class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-x text-gray-500"
+              fill="none"
+              height="20"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6 6 18"
+              />
+              <path
+                d="m6 6 12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="p-6 overflow-y-auto space-y-6 flex-1"
+        >
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5"
+            >
+              Task Name
+            </label>
+            <input
+              class="w-full text-lg font-bold bg-transparent border-b-2 border-gray-200 dark:border-gray-700 focus:border-violet-500 focus:outline-none py-2 dark:text-white transition-colors"
+              placeholder="e.g. Wash the dishes"
+              value=""
+            />
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Category
+            </label>
+            <div
+              class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
+            >
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        bg-violet-600 text-white border-transparent shadow-lg scale-105"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-utensils"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"
+                  />
+                  <path
+                    d="M7 2v20"
+                  />
+                  <path
+                    d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"
+                  />
+                </svg>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Kitchen
+                </span>
+              </button>
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-500"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-sofa"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"
+                  />
+                  <path
+                    d="M2 16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v1.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V11a2 2 0 0 0-4 0z"
+                  />
+                  <path
+                    d="M4 18v2"
+                  />
+                  <path
+                    d="M20 18v2"
+                  />
+                  <path
+                    d="M12 4v9"
+                  />
+                </svg>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Living Room
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            class="grid grid-cols-2 gap-4"
+          >
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+              >
+                Base Points
+              </label>
+              <div
+                class="flex items-center gap-2"
+              >
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  -
+                </button>
+                <span
+                  class="flex-1 text-center font-bold text-xl dark:text-white"
+                >
+                  20
+                </span>
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800 flex flex-col justify-between"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider"
+              >
+                Photo Proof
+              </label>
+              <div
+                class="flex items-center justify-between mt-2"
+              >
+                <div
+                  class="flex items-center gap-2 text-gray-500"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-camera"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"
+                    />
+                    <circle
+                      cx="12"
+                      cy="13"
+                      r="3"
+                    />
+                  </svg>
+                  <span
+                    class="text-xs"
+                  >
+                    Required
+                  </span>
+                </div>
+                <button
+                  class="w-12 h-7 rounded-full p-1 transition-colors duration-200
+        ease-in-out relative bg-gray-200 dark:bg-gray-700"
+                >
+                  <div
+                    class="w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200
+            ease-in-out translate-x-0"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Checklist (Optional)
+            </label>
+            <div
+              class="space-y-3 mb-3"
+            />
+            <div
+              class="flex gap-2 items-end"
+            >
+              <div
+                class="flex-1 space-y-2"
+              >
+                <input
+                  class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="Add step..."
+                  value=""
+                />
+                <div
+                  class="flex gap-2"
+                >
+                  <label
+                    class="flex items-center gap-1 text-xs text-gray-500 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer select-none"
+                  >
+                    <input
+                      class="rounded text-violet-600 focus:ring-violet-500"
+                      type="checkbox"
+                    />
+                    Bonus Task
+                  </label>
+                  <select
+                    class="text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 focus:outline-none"
+                  >
+                    <option
+                      value="5"
+                    >
+                      5 pts
+                    </option>
+                    <option
+                      value="10"
+                    >
+                      10 pts
+                    </option>
+                    <option
+                      value="20"
+                    >
+                      20 pts
+                    </option>
+                    <option
+                      value="50"
+                    >
+                      50 pts
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <button
+                class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-violet-100 hover:text-violet-600 transition-colors disabled:opacity-50"
+                disabled=""
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-plus"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12h14"
+                  />
+                  <path
+                    d="M12 5v14"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="p-4 border-t border-gray-100 dark:border-gray-800 mt-auto bg-white dark:bg-gray-900 pb-safe"
+        >
+          <button
+            class="px-4 py-3.5 rounded-xl font-semibold text-[15px] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-violet-600 text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 active:scale-95 w-full "
+            disabled=""
+            type="button"
+          >
+            Create Task
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ Γ¥» Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ Γ¥» src/components/modals/CreateTaskModal.test.jsx:46:32
+     44|             />
+     45|         );
+     46|         const saveBtn = screen.getByRole('button', { name: /Save Task/ΓÇª
+       |                                ^
+     47|         expect(saveBtn).toBeDisabled();
+     48|     });
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[3/4]ΓÄ»
+
+ FAIL  src/components/modals/CreateTaskModal.test.jsx > CreateTaskModal > enables save button when title is entered and calls onSave
+TestingLibraryElementError: Unable to find an element with the placeholder text of: /e.g. Wash Dishes/i
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in"
+    >
+      <div
+        class="bg-white dark:bg-gray-900 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+      >
+        <div
+          class="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50"
+        >
+          <h2
+            class="text-lg font-bold dark:text-white"
+          >
+            New Task
+          </h2>
+          <button
+            class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-x text-gray-500"
+              fill="none"
+              height="20"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6 6 18"
+              />
+              <path
+                d="m6 6 12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="p-6 overflow-y-auto space-y-6 flex-1"
+        >
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5"
+            >
+              Task Name
+            </label>
+            <input
+              class="w-full text-lg font-bold bg-transparent border-b-2 border-gray-200 dark:border-gray-700 focus:border-violet-500 focus:outline-none py-2 dark:text-white transition-colors"
+              placeholder="e.g. Wash the dishes"
+              value=""
+            />
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Category
+            </label>
+            <div
+              class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
+            >
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        bg-violet-600 text-white border-transparent shadow-lg scale-105"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-utensils"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"
+                  />
+                  <path
+                    d="M7 2v20"
+                  />
+                  <path
+                    d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"
+                  />
+                </svg>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Kitchen
+                </span>
+              </button>
+              <button
+                class="flex flex-col items-center gap-2 p-3 rounded-xl min-w-[80px] border-2 transition-all
+                                        border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-500"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-sofa"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"
+                  />
+                  <path
+                    d="M2 16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v1.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V11a2 2 0 0 0-4 0z"
+                  />
+                  <path
+                    d="M4 18v2"
+                  />
+                  <path
+                    d="M20 18v2"
+                  />
+                  <path
+                    d="M12 4v9"
+                  />
+                </svg>
+                <span
+                  class="text-xs font-medium truncate w-full text-center"
+                >
+                  Living Room
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            class="grid grid-cols-2 gap-4"
+          >
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+              >
+                Base Points
+              </label>
+              <div
+                class="flex items-center gap-2"
+              >
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  -
+                </button>
+                <span
+                  class="flex-1 text-center font-bold text-xl dark:text-white"
+                >
+                  20
+                </span>
+                <button
+                  class="w-8 h-8 rounded-full bg-white dark:bg-gray-700 shadow flex items-center justify-center font-bold"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div
+              class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800 flex flex-col justify-between"
+            >
+              <label
+                class="block text-xs font-bold text-gray-400 uppercase tracking-wider"
+              >
+                Photo Proof
+              </label>
+              <div
+                class="flex items-center justify-between mt-2"
+              >
+                <div
+                  class="flex items-center gap-2 text-gray-500"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-camera"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"
+                    />
+                    <circle
+                      cx="12"
+                      cy="13"
+                      r="3"
+                    />
+                  </svg>
+                  <span
+                    class="text-xs"
+                  >
+                    Required
+                  </span>
+                </div>
+                <button
+                  class="w-12 h-7 rounded-full p-1 transition-colors duration-200
+        ease-in-out relative bg-gray-200 dark:bg-gray-700"
+                >
+                  <div
+                    class="w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200
+            ease-in-out translate-x-0"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+            >
+              Checklist (Optional)
+            </label>
+            <div
+              class="space-y-3 mb-3"
+            />
+            <div
+              class="flex gap-2 items-end"
+            >
+              <div
+                class="flex-1 space-y-2"
+              >
+                <input
+                  class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="Add step..."
+                  value=""
+                />
+                <div
+                  class="flex gap-2"
+                >
+                  <label
+                    class="flex items-center gap-1 text-xs text-gray-500 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer select-none"
+                  >
+                    <input
+                      class="rounded text-violet-600 focus:ring-violet-500"
+                      type="checkbox"
+                    />
+                    Bonus Task
+                  </label>
+                  <select
+                    class="text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 focus:outline-none"
+                  >
+                    <option
+                      value="5"
+                    >
+                      5 pts
+                    </option>
+                    <option
+                      value="10"
+                    >
+                      10 pts
+                    </option>
+                    <option
+                      value="20"
+                    >
+                      20 pts
+                    </option>
+                    <option
+                      value="50"
+                    >
+                      50 pts
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <button
+                class="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-violet-100 hover:text-violet-600 transition-colors disabled:opacity-50"
+                disabled=""
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-plus"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12h14"
+                  />
+                  <path
+                    d="M12 5v14"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="p-4 border-t border-gray-100 dark:border-gray-800 mt-auto bg-white dark:bg-gray-900 pb-safe"
+        >
+          <button
+            class="px-4 py-3.5 rounded-xl font-semibold text-[15px] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-violet-600 text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 active:scale-95 w-full "
+            disabled=""
+            type="button"
+          >
+            Create Task
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+ Γ¥» Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ Γ¥» node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ Γ¥» src/components/modals/CreateTaskModal.test.jsx:62:30
+     60|         );
+     61| 
+     62|         const input = screen.getByPlaceholderText(/e.g. Wash Dishes/i);
+       |                              ^
+     63|         fireEvent.change(input, { target: { value: 'Clean Sink' } });
+     64| 
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[4/4]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m6 passed[39m[22m[90m (10)[39m
+[2m   Start at [22m 21:28:20
+[2m   Duration [22m 2.20s[2m (transform 364ms, setup 458ms, import 910ms, tests 746ms, environment 2.84s)[22m
+
