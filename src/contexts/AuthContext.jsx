@@ -1,13 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth, db } from '../firebase';
+import { auth, db, googleProvider } from '../firebase';
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    signInWithPopup,
     signOut,
     onAuthStateChanged,
     updateProfile
 } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
@@ -28,7 +29,7 @@ export function AuthProvider({ children }) {
             displayName,
             avatar,
             householdId: null, // Will point to household document ID
-            createdAt: new Date()
+            createdAt: serverTimestamp()
         });
         // Update Auth Profile
         await updateProfile(result.user, { displayName });
@@ -37,6 +38,27 @@ export function AuthProvider({ children }) {
 
     function login(email, password) {
         return signInWithEmailAndPassword(auth, email, password);
+    }
+
+    async function loginWithGoogle() {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+
+        // Check if user already has a profile
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (!docSnap.exists()) {
+            // Create user document in Firestore if it doesn't exist
+            await setDoc(docRef, {
+                email: user.email,
+                displayName: user.displayName,
+                avatar: 'smile',
+                householdId: null,
+                createdAt: serverTimestamp()
+            });
+        }
+        return result;
     }
 
     function logout() {
@@ -70,6 +92,7 @@ export function AuthProvider({ children }) {
         userProfile,
         signup,
         login,
+        loginWithGoogle,
         logout
     };
 

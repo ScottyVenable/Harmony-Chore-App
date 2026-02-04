@@ -5,11 +5,13 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 // Mock Auth Context
 const mockLogin = vi.fn();
 const mockSignup = vi.fn();
+const mockLoginWithGoogle = vi.fn();
 
 vi.mock('../../contexts/AuthContext', () => ({
     useAuth: () => ({
         login: mockLogin,
-        signup: mockSignup
+        signup: mockSignup,
+        loginWithGoogle: mockLoginWithGoogle
     })
 }));
 
@@ -65,6 +67,17 @@ describe('LoginScreen', () => {
 
         await waitFor(() => {
             expect(mockSignup).toHaveBeenCalledWith('new@example.com', 'newpassword', 'Test User');
+        });
+    });
+
+    it('calls loginWithGoogle function when Google button clicked', async () => {
+        render(<LoginScreen />);
+
+        const googleBtn = screen.getByText(/Google/i, { selector: 'button' });
+        fireEvent.click(googleBtn);
+
+        await waitFor(() => {
+            expect(mockLoginWithGoogle).toHaveBeenCalled();
         });
     });
 });
