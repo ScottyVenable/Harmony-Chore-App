@@ -5,12 +5,14 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 // Mock Auth Context
 const mockLogin = vi.fn();
 const mockSignup = vi.fn();
+const mockSignupAsGuest = vi.fn();
 const mockLoginWithGoogle = vi.fn();
 
 vi.mock('../../contexts/AuthContext', () => ({
     useAuth: () => ({
         login: mockLogin,
         signup: mockSignup,
+        signupAsGuest: mockSignupAsGuest,
         loginWithGoogle: mockLoginWithGoogle
     })
 }));
@@ -79,5 +81,59 @@ describe('LoginScreen', () => {
         await waitFor(() => {
             expect(mockLoginWithGoogle).toHaveBeenCalled();
         });
+    });
+
+    it('shows guest toggle in signup mode and hides email when enabled', () => {
+        render(<LoginScreen />);
+
+        // Switch to signup
+        fireEvent.click(screen.getByText(/Don't have an account\? Sign up/i));
+
+        // Guest toggle should be visible
+        const guestToggle = screen.getByText(/Skip email\? Continue as Guest/i);
+        expect(guestToggle).toBeInTheDocument();
+
+        // Email field should be visible before guest toggle
+        expect(screen.getByPlaceholderText(/you@example.com/i)).toBeInTheDocument();
+
+        // Click guest toggle
+        fireEvent.click(guestToggle);
+
+        // Email field should be hidden
+        expect(screen.queryByPlaceholderText(/you@example.com/i)).not.toBeInTheDocument();
+        // Guest mode text should update
+        expect(screen.getByText(/Guest mode — no email needed/i)).toBeInTheDocument();
+        // Button should say "Create Guest Account"
+        expect(screen.getByText(/Create Guest Account/i, { selector: 'button' })).toBeInTheDocument();
+    });
+
+    it('calls signupAsGuest with name and password when guest mode is active', async () => {
+        render(<LoginScreen />);
+
+        // Switch to signup
+        fireEvent.click(screen.getByText(/Don't have an account\? Sign up/i));
+
+        // Fill name
+        fireEvent.change(screen.getByPlaceholderText(/e.g. Scotty/i), { target: { value: 'Guest User' } });
+
+        // Enable guest mode
+        fireEvent.click(screen.getByText(/Skip email\? Continue as Guest/i));
+
+        // Fill password
+        fireEvent.change(screen.getByPlaceholderText(/••••••••/i), { target: { value: 'guestpass123' } });
+
+        // Submit
+        const submitBtn = screen.getByText('Create Guest Account', { selector: 'button' });
+        fireEvent.click(submitBtn);
+
+        await waitFor(() => {
+            expect(mockSignupAsGuest).toHaveBeenCalledWith('guestpass123', 'Guest User');
+        });
+    });
+
+    it('does not show guest toggle in login mode', () => {
+        render(<LoginScreen />);
+        expect(screen.queryByText(/Skip email\? Continue as Guest/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/Guest mode/i)).not.toBeInTheDocument();
     });
 });
