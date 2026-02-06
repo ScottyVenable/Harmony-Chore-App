@@ -29,10 +29,33 @@ export function AuthProvider({ children }) {
             email,
             displayName,
             avatar,
+            isGuest: false,
             householdId: null,
             createdAt: serverTimestamp()
         });
         console.log("User profile created in Firestore");
+        // Update Auth Profile
+        await updateProfile(result.user, { displayName });
+        return result;
+    }
+
+    async function signupAsGuest(password, displayName, avatar = 'smile') {
+        // Generate a unique synthetic email for Firebase Auth (which requires one)
+        const guestId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+            ? crypto.randomUUID().replace(/-/g, '').slice(0, 12)
+            : Math.random().toString(36).slice(2, 14);
+        const syntheticEmail = `${guestId}@guest.harmony.app`;
+        const result = await createUserWithEmailAndPassword(auth, syntheticEmail, password);
+        // Create user document in Firestore marked as guest
+        await setDoc(doc(db, "users", result.user.uid), {
+            email: null,
+            displayName,
+            avatar,
+            isGuest: true,
+            householdId: null,
+            createdAt: serverTimestamp()
+        });
+        console.log("Guest profile created in Firestore");
         // Update Auth Profile
         await updateProfile(result.user, { displayName });
         return result;
@@ -104,6 +127,7 @@ export function AuthProvider({ children }) {
         currentUser,
         userProfile,
         signup,
+        signupAsGuest,
         login,
         loginWithGoogle,
         logout

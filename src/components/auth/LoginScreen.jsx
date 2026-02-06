@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../Button';
-import { Sparkles, Mail, Lock, User, AlertCircle } from 'lucide-react';
+import { Sparkles, Mail, Lock, User, UserX, AlertCircle } from 'lucide-react';
 
 export const LoginScreen = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const [isGuest, setIsGuest] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const { login, signup, loginWithGoogle } = useAuth();
+    const { login, signup, signupAsGuest, loginWithGoogle } = useAuth();
 
     async function handleGoogleSignIn() {
         setError('');
@@ -33,6 +34,8 @@ export const LoginScreen = () => {
         try {
             if (isLogin) {
                 await login(email, password);
+            } else if (isGuest) {
+                await signupAsGuest(password, name);
             } else {
                 await signup(email, password, name);
             }
@@ -80,20 +83,33 @@ export const LoginScreen = () => {
                             </div>
                         )}
 
-                        <div className="space-y-1">
-                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">Email Address</label>
-                            <div className="relative">
-                                <Mail className="absolute left-3 top-3 text-gray-500" size={18} />
-                                <input
-                                    type="email"
-                                    required
-                                    placeholder="you@example.com"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-gray-900 border border-gray-700 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors"
-                                />
+                        {!isLogin && (
+                            <button
+                                type="button"
+                                onClick={() => setIsGuest(!isGuest)}
+                                className={`w-full py-2 px-3 rounded-lg text-xs font-medium transition-colors flex items-center justify-center gap-1.5 ${isGuest ? 'bg-violet-600/20 text-violet-300 border border-violet-500/30' : 'bg-gray-800 text-gray-400 border border-gray-700 hover:border-gray-600'}`}
+                            >
+                                <UserX size={14} />
+                                {isGuest ? 'Guest mode — no email needed' : 'Skip email? Continue as Guest'}
+                            </button>
+                        )}
+
+                        {(isLogin || !isGuest) && (
+                            <div className="space-y-1">
+                                <label className="text-xs font-bold text-gray-500 uppercase ml-1">Email Address</label>
+                                <div className="relative">
+                                    <Mail className="absolute left-3 top-3 text-gray-500" size={18} />
+                                    <input
+                                        type="email"
+                                        required
+                                        placeholder="you@example.com"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full bg-gray-900 border border-gray-700 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-colors"
+                                    />
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         <div className="space-y-1">
                             <label className="text-xs font-bold text-gray-500 uppercase ml-1">Password</label>
@@ -111,7 +127,7 @@ export const LoginScreen = () => {
                         </div>
 
                         <Button fullWidth type="submit" disabled={loading} themeColor={{ bg: 'bg-violet-600' }} className="mt-4 shadow-violet-500/50">
-                            {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
+                            {loading ? 'Please wait...' : (isLogin ? 'Sign In' : (isGuest ? 'Create Guest Account' : 'Create Account'))}
                         </Button>
                     </form>
 
@@ -136,7 +152,7 @@ export const LoginScreen = () => {
 
                     <div className="mt-8 text-center">
                         <button
-                            onClick={() => setIsLogin(!isLogin)}
+                            onClick={() => { setIsLogin(!isLogin); setIsGuest(false); }}
                             className="text-sm text-gray-400 hover:text-white transition-colors"
                         >
                             {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
