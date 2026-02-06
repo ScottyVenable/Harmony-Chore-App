@@ -28,6 +28,7 @@ export default function App() {
   const [modals, setModals] = useState({ create: false, complete: false, categoryManager: false });
   const [modalData, setModalData] = useState(null); // To pass data to modals (e.g. task to edit)
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [codeCopied, setCodeCopied] = useState(false);
   const [currentDate] = useState(() => {
     const date = new Date();
     return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
@@ -634,12 +635,15 @@ export default function App() {
                         </div>
                         <button
                           onClick={() => {
-                            navigator.clipboard.writeText(householdData.inviteCode);
+                            navigator.clipboard.writeText(householdData.inviteCode).then(() => {
+                              setCodeCopied(true);
+                              setTimeout(() => setCodeCopied(false), 2000);
+                            }).catch(() => {});
                           }}
-                          className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                          className={`p-3 rounded-xl transition-colors ${codeCopied ? 'bg-green-100 dark:bg-green-900/30 text-green-600' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
                           aria-label="Copy invite code"
                         >
-                          <Copy size={18} />
+                          {codeCopied ? <Check size={18} /> : <Copy size={18} />}
                         </button>
                       </div>
                     </Card>
