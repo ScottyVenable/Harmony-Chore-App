@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   CheckCircle2, Plus, Edit3, Trophy, Sparkles, Check,
   ChevronRight, ListChecks, Calendar, Crown, Shield, Sun, Layers,
-  Activity, TrendingUp, Camera, Home, ShoppingBag, User
+  Activity, TrendingUp, Camera, Home, ShoppingBag, User, LogOut, Copy
 } from 'lucide-react';
 
 import { Card } from './components/Card';
@@ -44,24 +44,39 @@ export default function App() {
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
   const [tasks, setTasks] = useState([]);
   const [members, setMembers] = useState([]);
+  const [householdData, setHouseholdData] = useState(null);
 
   // Firestore Sync
   useEffect(() => {
     if (!userProfile?.householdId) return;
 
+    // Sync Household document (for invite code, name, etc.)
+    const unsubHousehold = onSnapshot(doc(db, "households", userProfile.householdId), (docSnap) => {
+      if (docSnap.exists()) {
+        setHouseholdData({ id: docSnap.id, ...docSnap.data() });
+      }
+    }, (err) => {
+      console.error("Household sync error:", err);
+    });
+
     // Sync Tasks
     const qTasks = query(collection(db, "households", userProfile.householdId, "tasks"), orderBy("createdAt", "desc"));
     const unsubTasks = onSnapshot(qTasks, (snapshot) => {
-      setTasks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setTasks(snapshot.docs.map(d => ({ id: d.id, ...d.data() })));
+    }, (err) => {
+      console.error("Tasks sync error:", err);
     });
 
     // Sync Members
     const qMembers = query(collection(db, "households", userProfile.householdId, "members"));
     const unsubMembers = onSnapshot(qMembers, (snapshot) => {
-      setMembers(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setMembers(snapshot.docs.map(d => ({ id: d.id, ...d.data() })));
+    }, (err) => {
+      console.error("Members sync error:", err);
     });
 
     return () => {
+      unsubHousehold();
       unsubTasks();
       unsubMembers();
     };
@@ -149,8 +164,9 @@ export default function App() {
   const handleSaveTask = async (taskData) => {
     try {
       if (modalData) {
-        // Edit
-        await updateDoc(doc(db, "households", userProfile.householdId, "tasks", taskData.id), taskData);
+        // Edit — strip the document id before writing
+        const { id, ...data } = taskData;
+        await updateDoc(doc(db, "households", userProfile.householdId, "tasks", id), data);
       } else {
         // Create
         await addDoc(collection(db, "households", userProfile.householdId, "tasks"), {
@@ -180,9 +196,10 @@ export default function App() {
         completedAt: serverTimestamp()
       });
 
-      // Add points to user
+      // Add points to user and increment tasks completed
       await updateDoc(doc(db, "households", userProfile.householdId, "members", currentUser.uid), {
-        points: increment(earnedPoints)
+        points: increment(earnedPoints),
+        tasksCompleted: increment(1)
       });
 
       setModals({ ...modals, complete: false });
@@ -459,7 +476,7 @@ export default function App() {
                         <div className="grid grid-cols-5 gap-2">
                           {AVATAR_PRESETS.map(iconKey => (
                             <button key={iconKey} onClick={() => {
-                              setProfile({ ...profile, avatar: iconKey, avatarType: 'emoji' });
+                              handleUpdateProfile({ avatar: iconKey, avatarType: 'emoji' });
                               if (navigator.vibrate) navigator.vibrate(10);
                             }}
                               className={`aspect-square rounded-lg flex items-center justify-center text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${profile.avatar === iconKey && profile.avatarType === 'emoji' ? 'bg-gray-100 dark:bg-gray-700 ring-2 ring-inset text-violet-600 ' + currentTheme.ring : ''}`}
@@ -474,7 +491,7 @@ export default function App() {
                           </button>
                           <input type="file" ref={fileInputRef} onChange={(e) => {
                             const file = e.target.files[0];
-                            if (file) setProfile({ ...profile, avatarType: 'image', image: URL.createObjectURL(file) });
+                            if (file) handleUpdateProfile({ avatarType: 'image', image: URL.createObjectURL(file) });
                           }} hidden accept="image/*" />
                         </div>
                       </div>
@@ -606,6 +623,36 @@ export default function App() {
                       </>
                     )}
                   </Card>
+
+                  {/* Invite Code */}
+                  {householdData?.inviteCode && (
+                    <Card className="p-4 mt-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Household Invite Code</span>
+                          <span className="text-xl font-bold tracking-widest dark:text-white">{householdData.inviteCode}</span>
+                        </div>
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(householdData.inviteCode);
+                          }}
+                          className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                          aria-label="Copy invite code"
+                        >
+                          <Copy size={18} />
+                        </button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Logout */}
+                  <button
+                    onClick={() => logout()}
+                    className="w-full mt-4 p-4 rounded-2xl bg-red-50 dark:bg-red-900/20 text-red-500 font-semibold flex items-center justify-center gap-2 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+                  >
+                    <LogOut size={18} />
+                    Sign Out
+                  </button>
                 </div>
               </div>
             )}

@@ -28,7 +28,6 @@ export function AuthProvider({ children }) {
             email,
             displayName,
             avatar,
-            householdId: null, // Will point to household document ID
             householdId: null,
             createdAt: serverTimestamp()
         });
