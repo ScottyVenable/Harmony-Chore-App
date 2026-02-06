@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../Button';
 import { Home, Users, ArrowRight, Plus, Hash } from 'lucide-react';
 import { db } from '../../firebase';
-import { collection, addDoc, query, where, getDocs, updateDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 export const HouseholdSetup = () => {
     const { currentUser, userProfile, logout } = useAuth();
@@ -112,7 +112,7 @@ export const HouseholdSetup = () => {
                                 </div>
                                 <div className="flex-1 text-left">
                                     <div className="font-bold">Create Household</div>
-                                    <div className="text-xs text-gray-500">I'm starting a new group</div>
+                                    <div className="text-xs text-gray-500">I&apos;m starting a new group</div>
                                 </div>
                                 <ArrowRight size={20} className="text-gray-300 group-hover:text-violet-500 transition-colors" />
                             </button>
